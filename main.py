@@ -1,6 +1,16 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Pokemon Cardmarket Tracker")
+
+# CORS: autorise Webflow + Wized (et autres) à appeler ton API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # on verrouillera plus tard
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
@@ -8,7 +18,6 @@ def root():
 
 @app.get("/api/collection")
 def collection():
-    # Données de test (on remplacera par Cardmarket ensuite)
     cards = [
         {"name": "Pikachu", "set": "Base Set", "qty": 2, "unit_price": 8.40},
         {"name": "Charizard", "set": "Base Set", "qty": 1, "unit_price": 250.00},
